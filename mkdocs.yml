@@ -1,1 +1,6 @@
-site_name: My Docs
+site_name: Portfólio | Patrick Vasconcelos
+site_url: https://patrickvasconcelos.com/portfolio
+nav:
+    - Home: index.md
+    - Sobre: about.md
+theme: material
