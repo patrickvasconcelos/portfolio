@@ -25,3 +25,5 @@
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+bike-share-data/*-divvy-tripdata.csv
+docs/bike-share-data/*-divvy-tripdata.csv

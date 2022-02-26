@@ -1,27 +1,193 @@
 ---
-title: "Cyclistic Bike-Share Analysis"
+title: "How Does a Bike-Share Navigate Speedy Success?"
 output:
   html_document:
     toc: yes
     toc_float: yes
 ---
 
-## R Markdown
+This project was developed with the goals of practice the learning 
+This is a capstone project of the [Google Data Analytics Professional Certificate](https://www.coursera.org/professional-certificates/google-data-analytics), which I have been doing in the last months, and the goal is to put all the concepts learned in it into practice, without further ado…
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Context
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+I’m a junior data analyst working in Cyclist, a company who launched a successful bike-share offering, and nowadays the fleet of 5.824 bicycles that are geotracked and locked into a network of 692 stations across Chicago.
 
-```{r cars}
-summary(cars)
+The company have three price plans, allowing the customers to use a single-ride pass, a full-day pass or an annual membership. Internally, we refer to customers with the two first price plans as casual riders, and the ones with the annual membership as Cyclistic members.
+
+Financial analysts concluded that the Cyclistic members are much more profitable than casual riders, and with that information, the director of marketing believes that a campaign focused on the casual riders, to convert them into Cyclistic members is the key to future growth. To design this marketing strategies, we need to understand the differ between these two customers, why the casual riders would by an annual membership, and how digital media could affect our marketing tactics. Our teams are interested in analyzing the Cyclistc historical bike trip data to identify trends.
+
+I was charged of one answer: How do annual members and casual riders use Cyclistic bikes differently?
+
+## Cyclistic Historical Bike-Share Data
+
+Our historical data is in this [link](https://divvy-tripdata.s3.amazonaws.com/index.html), under this [license](https://ride.divvybikes.com/data-license-agreement). They are in 12 CSVs containing details of the bike trips for each month, from February of 2021 to January of 2022, and it's organized in the following way:
+
+| Column Name        | Description                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------ |
+| ride_id            | Code representing the ride                                                                 |
+| rideable_type      | Type of bike used in the ride, it can be _electric_bike_, _classic_bike_ or  _docked_bike_ |
+| started_at         | Date and time the ride started                                                             |
+| ended_at           | Date and time the ride ended                                                               |
+| start_station_name | Start station's name                                                                       |
+| start_station_id   | Code of start station                                                                      |
+| end_station_name   | End station's name                                                                         |
+| end_station_id     | Code of end station                                                                        |
+| start_lat          | Start latitude                                                                             |
+| start_lng          | Start longitude                                                                            |
+| end_lat            | End latitude                                                                               |
+| end_lng            | End longitude                                                                              |
+| member_casual      | Customer classification, it can be _member_ or _casual_                                    |
+
+The data was stored in local folder named `bike-share-data`, following the name convention of `{yyyy}{mm}-divvy-tripdata.csv`.
+
+> disclaimer: the data actualy is from the [Divvy Bikes](https://ride.divvybikes.com/), a real bike share service in Chicago.
+
+There are some issues with the data, such as missing values, and some metrics that we can infer from the database, it’ll be described in the next section.
+
+## The Data Cleaning Process
+
+After acquiring and understand the data of the rides, the following step is to clean and infer other information from the data that we have. Because the data is too large (more than five million rides within a year), the tools we use to the analysis is the R language, which will allow us to document a cleaning and manipulation process and generate data viz in the next steps.
+
+```{r setup enviroment, include = FALSE}
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+Sys.setlocale(category = "LC_ALL", locale = "English")
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+### Importing the data
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+to import the data, we use the command in R:
+
+```{r importing data}
+bike_2101 <- read.csv(file = 'bike-share-data/202101-divvy-tripdata.csv')
+bike_2102 <- read.csv(file = 'bike-share-data/202102-divvy-tripdata.csv')
+bike_2103 <- read.csv(file = 'bike-share-data/202103-divvy-tripdata.csv')
+bike_2104 <- read.csv(file = 'bike-share-data/202104-divvy-tripdata.csv')
+bike_2105 <- read.csv(file = 'bike-share-data/202105-divvy-tripdata.csv')
+bike_2106 <- read.csv(file = 'bike-share-data/202106-divvy-tripdata.csv')
+bike_2107 <- read.csv(file = 'bike-share-data/202107-divvy-tripdata.csv')
+bike_2108 <- read.csv(file = 'bike-share-data/202108-divvy-tripdata.csv')
+bike_2109 <- read.csv(file = 'bike-share-data/202109-divvy-tripdata.csv')
+bike_2110 <- read.csv(file = 'bike-share-data/202110-divvy-tripdata.csv')
+bike_2111 <- read.csv(file = 'bike-share-data/202111-divvy-tripdata.csv')
+bike_2112 <- read.csv(file = 'bike-share-data/202112-divvy-tripdata.csv')
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+### Verifying the data
+
+The next step is to verify the data, and for that we’ll use the following commands.
+
+to list the columns in the dataframe:
+
+```{r list columns}
+colnames(bike_2101)
+colnames(bike_2102)
+colnames(bike_2103)
+colnames(bike_2104)
+colnames(bike_2105)
+colnames(bike_2106)
+colnames(bike_2107)
+colnames(bike_2108)
+colnames(bike_2109)
+colnames(bike_2110)
+colnames(bike_2111)
+colnames(bike_2112)
+
+```
+
+Since all CSVs have the same columns, we can concatenate then:
+
+```{r agregating data, warning = FALSE}
+bike_data <- rbind(bike_2101, bike_2102, bike_2103, bike_2104,
+                   bike_2105, bike_2106, bike_2107, bike_2108,
+                   bike_2109, bike_2110, bike_2111, bike_2112)
+rm(bike_2101, bike_2102, bike_2103, bike_2104,
+   bike_2105, bike_2106, bike_2107, bike_2108,
+   bike_2109, bike_2110, bike_2111, bike_2112)
+
+```
+
+
+To overview the data and look for missing values:
+
+```{r verify data types and missing values}
+summary(bike_data)
+```
+Here we can see that the `end_lat` and `end_lng` have missing values, but for our analysis we don't need this information, so we can remove it:
+
+```{r removing columns}
+bike_data <- bike_data %>% select(-c("start_lat", "start_lng", "end_lat", "end_lng"))
+
+```
+
+
+To ensure the columns have only specific values:
+
+```{r verify itens in columns}
+unique(bike_data$rideable_type)
+
+unique(bike_data$member_casual)
+```
+
+And to ensure the time window analyzed is accurate:
+
+```{r verify range dates}
+min(bike_data$started_at)
+max(bike_data$started_at)
+```
+
+### Transform the data
+
+We can transform then to levels to work more efficiently:
+
+Since the number of stations is over than six hundred, we can keep it as strings.
+
+
+We can transform then to levels to work more efficient:
+```{r convert string to factor}
+bike_data$rideable_type <- factor(bike_data$rideable_type)
+bike_data$member_casual <- factor(bike_data$member_casual)
+```
+
+Since the number of stations is over than six hundred, we can keep it as strings.
+
+Calculating duration of rides:
+
+```{r rides duration}
+bike_data$ride_length <- difftime(bike_data$ended_at, bike_data$started_at, units="mins")
+```
+And to convert to numeric:
+
+```{r convert ride_length to numeric}
+bike_data$ride_length <- as.numeric(as.character(bike_data$ride_length))
+```
+
+Removing rides with negative length:
+
+```{r remove negative ride length}
+
+bike_data <- bike_data %>% filter(ride_length > 0)
+
+```
+
+
+We also extract information of dates:
+
+```{r extract date info}
+bike_data$date <- as.Date(bike_data$started_at)
+bike_data$month <- format(as.Date(bike_data$date), "%b")
+bike_data$day <- format(as.Date(bike_data$date), "%d")
+bike_data$year <- format(as.Date(bike_data$date), "%Y")
+bike_data$day_of_week <- format(as.Date(bike_data$date), "%a")
+
+```
+
+
+## Analyze
+
+## Share
+
+## Act
