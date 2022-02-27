@@ -198,13 +198,6 @@ bike_data$day_of_week <- ordered(bike_data$day_of_week, levels=c("Sun", "Mon", "
 ```
 
 
-Our final database look like this:
-
-```{r aggregated data, echo=FALSE}
-knitr::kable(head(bike_data), "pipe")
-```
-
-
 ## Analysis of Our Rides
 
 With our dataset ready to be analyzed, we started with an aggregation of all rides:
