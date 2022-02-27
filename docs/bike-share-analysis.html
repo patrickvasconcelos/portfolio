@@ -363,7 +363,7 @@ div.tocify {
 </div>
 <div id="cyclistic-historical-bike-share-data" class="section level2">
 <h2>Cyclistic Historical Bike-Share Data</h2>
-<p>Our historical data is in this <a href="https://divvy-tripdata.s3.amazonaws.com/index.html">link</a>, under this <a href="https://ride.divvybikes.com/data-license-agreement">license</a>. They are in 12 CSVs containing details of the bike trips for each month, from February of 2021 to January of 2022, and it’s organized in the following way:</p>
+<p>Our historical data is in this <a href="https://divvy-tripdata.s3.amazonaws.com/index.html">link</a>, under this <a href="https://ride.divvybikes.com/data-license-agreement">license</a>. They are in 12 CSVs containing details of the bike trips for each month of 2021, and it’s organized in the following way:</p>
 <table>
 <colgroup>
 <col width="16%" />
@@ -432,7 +432,7 @@ div.tocify {
 </table>
 <p>The data was stored in local folder named <code>bike-share-data</code>, following the name convention of <code>{yyyy}{mm}-divvy-tripdata.csv</code>.</p>
 <blockquote>
-<p>disclaimer: the data actualy is from the <a href="https://ride.divvybikes.com/">Divvy Bikes</a>, a real bike share service in Chicago.</p>
+<p>Disclaimer: The data is actually from <a href="https://ride.divvybikes.com/">Divvy Bikes</a>, an actual bike-sharing service in Chicago.</p>
 </blockquote>
 <p>There are some issues with the data, such as missing values, and some metrics that we can infer from the database, it’ll be described in the next section.</p>
 </div>
@@ -459,51 +459,39 @@ bike_2112 &lt;- read.csv(file = &#39;bike-share-data/202112-divvy-tripdata.csv&#
 <h3>Verifying the data</h3>
 <p>The next step is to verify the data, and for that we’ll use the following commands.</p>
 <p>to list the columns in the dataframe:</p>
-<pre class="r"><code>colnames(bike_2101)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;         &quot;ended_at&quot;           &quot;start_station_name&quot;
 ##  [6] &quot;start_station_id&quot;   &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;          &quot;start_lng&quot;         
 ## [11] &quot;end_lat&quot;            &quot;end_lng&quot;            &quot;member_casual&quot;</code></pre>
-<pre class="r"><code>colnames(bike_2102)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;         &quot;ended_at&quot;           &quot;start_station_name&quot;
 ##  [6] &quot;start_station_id&quot;   &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;          &quot;start_lng&quot;         
 ## [11] &quot;end_lat&quot;            &quot;end_lng&quot;            &quot;member_casual&quot;</code></pre>
-<pre class="r"><code>colnames(bike_2103)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;         &quot;ended_at&quot;           &quot;start_station_name&quot;
 ##  [6] &quot;start_station_id&quot;   &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;          &quot;start_lng&quot;         
 ## [11] &quot;end_lat&quot;            &quot;end_lng&quot;            &quot;member_casual&quot;</code></pre>
-<pre class="r"><code>colnames(bike_2104)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;         &quot;ended_at&quot;           &quot;start_station_name&quot;
 ##  [6] &quot;start_station_id&quot;   &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;          &quot;start_lng&quot;         
 ## [11] &quot;end_lat&quot;            &quot;end_lng&quot;            &quot;member_casual&quot;</code></pre>
-<pre class="r"><code>colnames(bike_2105)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;         &quot;ended_at&quot;           &quot;start_station_name&quot;
 ##  [6] &quot;start_station_id&quot;   &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;          &quot;start_lng&quot;         
 ## [11] &quot;end_lat&quot;            &quot;end_lng&quot;            &quot;member_casual&quot;</code></pre>
-<pre class="r"><code>colnames(bike_2106)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;         &quot;ended_at&quot;           &quot;start_station_name&quot;
 ##  [6] &quot;start_station_id&quot;   &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;          &quot;start_lng&quot;         
 ## [11] &quot;end_lat&quot;            &quot;end_lng&quot;            &quot;member_casual&quot;</code></pre>
-<pre class="r"><code>colnames(bike_2107)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;         &quot;ended_at&quot;           &quot;start_station_name&quot;
 ##  [6] &quot;start_station_id&quot;   &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;          &quot;start_lng&quot;         
 ## [11] &quot;end_lat&quot;            &quot;end_lng&quot;            &quot;member_casual&quot;</code></pre>
-<pre class="r"><code>colnames(bike_2108)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;         &quot;ended_at&quot;           &quot;start_station_name&quot;
 ##  [6] &quot;start_station_id&quot;   &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;          &quot;start_lng&quot;         
 ## [11] &quot;end_lat&quot;            &quot;end_lng&quot;            &quot;member_casual&quot;</code></pre>
-<pre class="r"><code>colnames(bike_2109)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;         &quot;ended_at&quot;           &quot;start_station_name&quot;
 ##  [6] &quot;start_station_id&quot;   &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;          &quot;start_lng&quot;         
 ## [11] &quot;end_lat&quot;            &quot;end_lng&quot;            &quot;member_casual&quot;</code></pre>
-<pre class="r"><code>colnames(bike_2110)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;         &quot;ended_at&quot;           &quot;start_station_name&quot;
 ##  [6] &quot;start_station_id&quot;   &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;          &quot;start_lng&quot;         
 ## [11] &quot;end_lat&quot;            &quot;end_lng&quot;            &quot;member_casual&quot;</code></pre>
-<pre class="r"><code>colnames(bike_2111)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;         &quot;ended_at&quot;           &quot;start_station_name&quot;
 ##  [6] &quot;start_station_id&quot;   &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;          &quot;start_lng&quot;         
 ## [11] &quot;end_lat&quot;            &quot;end_lng&quot;            &quot;member_casual&quot;</code></pre>
-<pre class="r"><code>colnames(bike_2112)</code></pre>
 <pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;         &quot;ended_at&quot;           &quot;start_station_name&quot;
 ##  [6] &quot;start_station_id&quot;   &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;          &quot;start_lng&quot;         
 ## [11] &quot;end_lat&quot;            &quot;end_lng&quot;            &quot;member_casual&quot;</code></pre>
@@ -555,8 +543,6 @@ rm(bike_2101, bike_2102, bike_2103, bike_2104,
 </div>
 <div id="transform-the-data" class="section level3">
 <h3>Transform the data</h3>
-<p>We can transform then to levels to work more efficiently:</p>
-<p>Since the number of stations is over than six hundred, we can keep it as strings.</p>
 <p>We can transform then to levels to work more efficient:</p>
 <pre class="r"><code>bike_data$rideable_type &lt;- factor(bike_data$rideable_type)
 bike_data$member_casual &lt;- factor(bike_data$member_casual)</code></pre>
@@ -565,24 +551,1534 @@ bike_data$member_casual &lt;- factor(bike_data$member_casual)</code></pre>
 <pre class="r"><code>bike_data$ride_length &lt;- difftime(bike_data$ended_at, bike_data$started_at, units=&quot;mins&quot;)</code></pre>
 <p>And to convert to numeric:</p>
 <pre class="r"><code>bike_data$ride_length &lt;- as.numeric(as.character(bike_data$ride_length))</code></pre>
-<p>Removing rides with negative length:</p>
-<pre class="r"><code>bike_data &lt;- bike_data %&gt;% filter(ride_length &gt; 0)</code></pre>
+<p>Removing rides below one minute, because it’s potentially false starts or users trying to re-dock a bike to ensure it was secure:</p>
+<pre class="r"><code>bike_data &lt;- bike_data %&gt;% filter(ride_length &gt;= 1 &amp; !rideable_type == &#39;docked_bike&#39;)</code></pre>
 <p>We also extract information of dates:</p>
 <pre class="r"><code>bike_data$date &lt;- as.Date(bike_data$started_at)
 bike_data$month &lt;- format(as.Date(bike_data$date), &quot;%b&quot;)
 bike_data$day &lt;- format(as.Date(bike_data$date), &quot;%d&quot;)
 bike_data$year &lt;- format(as.Date(bike_data$date), &quot;%Y&quot;)
 bike_data$day_of_week &lt;- format(as.Date(bike_data$date), &quot;%a&quot;)</code></pre>
+<p>To make our analysis easier, we have to ordinate the month and the weekdays:</p>
+<pre class="r"><code>bike_data$month &lt;- ordered(bike_data$month, levels=c(&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;))
+bike_data$day_of_week &lt;- ordered(bike_data$day_of_week, levels=c(&quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;))</code></pre>
+<p>Our final database look like this:</p>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+<col width="12%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="6%" />
+<col width="5%" />
+<col width="5%" />
+<col width="2%" />
+<col width="1%" />
+<col width="2%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">ride_id</th>
+<th align="left">rideable_type</th>
+<th align="left">started_at</th>
+<th align="left">ended_at</th>
+<th align="left">start_station_name</th>
+<th align="left">start_station_id</th>
+<th align="left">end_station_name</th>
+<th align="left">end_station_id</th>
+<th align="left">member_casual</th>
+<th align="right">ride_length</th>
+<th align="left">date</th>
+<th align="left">month</th>
+<th align="left">day</th>
+<th align="left">year</th>
+<th align="left">day_of_week</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">E19E6F1B8D4C42ED</td>
+<td align="left">electric_bike</td>
+<td align="left">2021-01-23 16:14:19</td>
+<td align="left">2021-01-23 16:24:44</td>
+<td align="left">California Ave &amp; Cortez St</td>
+<td align="left">17660</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">member</td>
+<td align="right">10.416667</td>
+<td align="left">2021-01-23</td>
+<td align="left">Jan</td>
+<td align="left">23</td>
+<td align="left">2021</td>
+<td align="left">Sat</td>
+</tr>
+<tr class="even">
+<td align="left">DC88F20C2C55F27F</td>
+<td align="left">electric_bike</td>
+<td align="left">2021-01-27 18:43:08</td>
+<td align="left">2021-01-27 18:47:12</td>
+<td align="left">California Ave &amp; Cortez St</td>
+<td align="left">17660</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">member</td>
+<td align="right">4.066667</td>
+<td align="left">2021-01-27</td>
+<td align="left">Jan</td>
+<td align="left">27</td>
+<td align="left">2021</td>
+<td align="left">Wed</td>
+</tr>
+<tr class="odd">
+<td align="left">EC45C94683FE3F27</td>
+<td align="left">electric_bike</td>
+<td align="left">2021-01-21 22:35:54</td>
+<td align="left">2021-01-21 22:37:14</td>
+<td align="left">California Ave &amp; Cortez St</td>
+<td align="left">17660</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">member</td>
+<td align="right">1.333333</td>
+<td align="left">2021-01-21</td>
+<td align="left">Jan</td>
+<td align="left">21</td>
+<td align="left">2021</td>
+<td align="left">Thu</td>
+</tr>
+<tr class="even">
+<td align="left">4FA453A75AE377DB</td>
+<td align="left">electric_bike</td>
+<td align="left">2021-01-07 13:31:13</td>
+<td align="left">2021-01-07 13:42:55</td>
+<td align="left">California Ave &amp; Cortez St</td>
+<td align="left">17660</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">member</td>
+<td align="right">11.700000</td>
+<td align="left">2021-01-07</td>
+<td align="left">Jan</td>
+<td align="left">07</td>
+<td align="left">2021</td>
+<td align="left">Thu</td>
+</tr>
+<tr class="odd">
+<td align="left">5D8969F88C773979</td>
+<td align="left">electric_bike</td>
+<td align="left">2021-01-09 14:24:07</td>
+<td align="left">2021-01-09 15:17:54</td>
+<td align="left">California Ave &amp; Cortez St</td>
+<td align="left">17660</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">casual</td>
+<td align="right">53.783333</td>
+<td align="left">2021-01-09</td>
+<td align="left">Jan</td>
+<td align="left">09</td>
+<td align="left">2021</td>
+<td align="left">Sat</td>
+</tr>
+<tr class="even">
+<td align="left">09275CC10F854E9E</td>
+<td align="left">electric_bike</td>
+<td align="left">2021-01-04 05:05:04</td>
+<td align="left">2021-01-04 05:10:39</td>
+<td align="left">California Ave &amp; Cortez St</td>
+<td align="left">17660</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">member</td>
+<td align="right">5.583333</td>
+<td align="left">2021-01-04</td>
+<td align="left">Jan</td>
+<td align="left">04</td>
+<td align="left">2021</td>
+<td align="left">Mon</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div id="analyze" class="section level2">
-<h2>Analyze</h2>
+<div id="analysis-of-our-rides" class="section level2">
+<h2>Analysis of Our Rides</h2>
+<p>With our dataset ready to be analyzed, we started with an aggregation of all rides:</p>
+<pre class="r"><code>sum_rides &lt;- bike_data %&gt;%
+  group_by() %&gt;%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length))
+
+knitr::kable(sum_rides, &quot;pipe&quot;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">number_of_rides</th>
+<th align="right">average_duration</th>
+<th align="right">shortest_ride</th>
+<th align="right">longest_ride</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">5199439</td>
+<td align="right">18.70289</td>
+<td align="right">1</td>
+<td align="right">1559.933</td>
+</tr>
+</tbody>
+</table>
+<p>To understand who the customer differs, we need to compare then:</p>
+<pre class="r"><code>rides_per_user &lt;- bike_data %&gt;%
+  group_by(member_casual) %&gt;%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length)) %&gt;% 
+  arrange(member_casual)
+
+knitr::kable(rides_per_user, &quot;pipe&quot;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">member_casual</th>
+<th align="right">number_of_rides</th>
+<th align="right">average_duration</th>
+<th align="right">shortest_ride</th>
+<th align="right">longest_ride</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="right">2184502</td>
+<td align="right">25.39013</td>
+<td align="right">1</td>
+<td align="right">1559.933</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="right">3014937</td>
+<td align="right">13.85760</td>
+<td align="right">1</td>
+<td align="right">1559.933</td>
+</tr>
+</tbody>
+</table>
+<p>Now looking for patterns monthly:</p>
+<pre class="r"><code>rides_per_user_month &lt;- bike_data %&gt;%
+  group_by(member_casual, month) %&gt;%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length)) %&gt;% 
+  arrange(month, member_casual)
+
+knitr::kable(rides_per_user_month, &quot;pipe&quot;)</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="17%" />
+<col width="7%" />
+<col width="20%" />
+<col width="21%" />
+<col width="17%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">member_casual</th>
+<th align="left">month</th>
+<th align="right">number_of_rides</th>
+<th align="right">average_duration</th>
+<th align="right">shortest_ride</th>
+<th align="right">longest_ride</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Jan</td>
+<td align="right">15758</td>
+<td align="right">20.19724</td>
+<td align="right">1</td>
+<td align="right">1499.917</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Jan</td>
+<td align="right">77572</td>
+<td align="right">13.05609</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Feb</td>
+<td align="right">8705</td>
+<td align="right">33.74975</td>
+<td align="right">1</td>
+<td align="right">1499.933</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Feb</td>
+<td align="right">38685</td>
+<td align="right">18.38942</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Mar</td>
+<td align="right">67577</td>
+<td align="right">28.52957</td>
+<td align="right">1</td>
+<td align="right">1559.933</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Mar</td>
+<td align="right">142375</td>
+<td align="right">14.16900</td>
+<td align="right">1</td>
+<td align="right">1559.933</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Apr</td>
+<td align="right">110377</td>
+<td align="right">28.34455</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Apr</td>
+<td align="right">197477</td>
+<td align="right">14.91748</td>
+<td align="right">1</td>
+<td align="right">1499.933</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">May</td>
+<td align="right">210293</td>
+<td align="right">28.81852</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">May</td>
+<td align="right">269897</td>
+<td align="right">14.89364</td>
+<td align="right">1</td>
+<td align="right">1499.933</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Jun</td>
+<td align="right">313646</td>
+<td align="right">27.49351</td>
+<td align="right">1</td>
+<td align="right">1500.417</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Jun</td>
+<td align="right">352676</td>
+<td align="right">14.93043</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Jul</td>
+<td align="right">378581</td>
+<td align="right">26.10952</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Jul</td>
+<td align="right">373833</td>
+<td align="right">14.48078</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Aug</td>
+<td align="right">362697</td>
+<td align="right">25.38623</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Aug</td>
+<td align="right">385426</td>
+<td align="right">14.32334</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Sep</td>
+<td align="right">324115</td>
+<td align="right">24.33082</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Sep</td>
+<td align="right">385959</td>
+<td align="right">13.95225</td>
+<td align="right">1</td>
+<td align="right">1499.967</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Oct</td>
+<td align="right">231084</td>
+<td align="right">22.17535</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Oct</td>
+<td align="right">367460</td>
+<td align="right">12.71668</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Nov</td>
+<td align="right">97809</td>
+<td align="right">18.67539</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Nov</td>
+<td align="right">248699</td>
+<td align="right">11.49873</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Dec</td>
+<td align="right">63860</td>
+<td align="right">18.53399</td>
+<td align="right">1</td>
+<td align="right">1499.933</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Dec</td>
+<td align="right">174878</td>
+<td align="right">11.18211</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+</tbody>
+</table>
+<p>Also, we look for patterns in the weekdays:</p>
+<pre class="r"><code>rides_per_user_weekday &lt;- bike_data %&gt;%
+  group_by(member_casual, day_of_week) %&gt;%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length)) %&gt;% 
+  arrange(day_of_week, member_casual)
+
+knitr::kable(rides_per_user_weekday, &quot;pipe&quot;)</code></pre>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="13%" />
+<col width="18%" />
+<col width="19%" />
+<col width="16%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">member_casual</th>
+<th align="left">day_of_week</th>
+<th align="right">number_of_rides</th>
+<th align="right">average_duration</th>
+<th align="right">shortest_ride</th>
+<th align="right">longest_ride</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Sun</td>
+<td align="right">404546</td>
+<td align="right">29.32350</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Sun</td>
+<td align="right">369218</td>
+<td align="right">15.94302</td>
+<td align="right">1</td>
+<td align="right">1499.933</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Mon</td>
+<td align="right">246328</td>
+<td align="right">25.60272</td>
+<td align="right">1</td>
+<td align="right">1499.933</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Mon</td>
+<td align="right">409354</td>
+<td align="right">13.46256</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Tue</td>
+<td align="right">241300</td>
+<td align="right">22.85973</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Tue</td>
+<td align="right">458153</td>
+<td align="right">12.98697</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Wed</td>
+<td align="right">247709</td>
+<td align="right">22.17025</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Wed</td>
+<td align="right">469600</td>
+<td align="right">13.01912</td>
+<td align="right">1</td>
+<td align="right">1499.967</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Thu</td>
+<td align="right">254823</td>
+<td align="right">22.32450</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Thu</td>
+<td align="right">444440</td>
+<td align="right">12.97342</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Fri</td>
+<td align="right">317294</td>
+<td align="right">23.80901</td>
+<td align="right">1</td>
+<td align="right">1500.417</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Fri</td>
+<td align="right">438997</td>
+<td align="right">13.54365</td>
+<td align="right">1</td>
+<td align="right">1499.950</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">Sat</td>
+<td align="right">472502</td>
+<td align="right">27.60694</td>
+<td align="right">1</td>
+<td align="right">1559.933</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">Sat</td>
+<td align="right">425175</td>
+<td align="right">15.53960</td>
+<td align="right">1</td>
+<td align="right">1559.933</td>
+</tr>
+</tbody>
+</table>
+<p>We can search for trends of use in different types of bikes, so let’s generate this base:</p>
+<pre class="r"><code>rides_per_user_and_type &lt;- bike_data %&gt;%
+  group_by(member_casual, rideable_type) %&gt;%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length)) %&gt;% 
+  arrange(member_casual)
+
+knitr::kable(rides_per_user_and_type, &quot;pipe&quot;)</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="15%" />
+<col width="15%" />
+<col width="18%" />
+<col width="19%" />
+<col width="15%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">member_casual</th>
+<th align="left">rideable_type</th>
+<th align="right">number_of_rides</th>
+<th align="right">average_duration</th>
+<th align="right">shortest_ride</th>
+<th align="right">longest_ride</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="right">1253395</td>
+<td align="right">29.23094</td>
+<td align="right">1</td>
+<td align="right">1559.9333</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="right">931107</td>
+<td align="right">20.21988</td>
+<td align="right">1</td>
+<td align="right">487.2667</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="right">1955673</td>
+<td align="right">14.34869</td>
+<td align="right">1</td>
+<td align="right">1559.9333</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="right">1059264</td>
+<td align="right">12.95091</td>
+<td align="right">1</td>
+<td align="right">480.5167</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>rides_per_user_and_type_month &lt;- bike_data %&gt;%
+  group_by(member_casual, rideable_type, month) %&gt;%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length)) %&gt;% 
+  arrange(month, member_casual, rideable_type)
+
+
+knitr::kable(rides_per_user_and_type_month, &quot;pipe&quot;)</code></pre>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="6%" />
+<col width="17%" />
+<col width="18%" />
+<col width="14%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">member_casual</th>
+<th align="left">rideable_type</th>
+<th align="left">month</th>
+<th align="right">number_of_rides</th>
+<th align="right">average_duration</th>
+<th align="right">shortest_ride</th>
+<th align="right">longest_ride</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Jan</td>
+<td align="right">8202</td>
+<td align="right">25.00526</td>
+<td align="right">1.033333</td>
+<td align="right">1499.9167</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Jan</td>
+<td align="right">7556</td>
+<td align="right">14.97816</td>
+<td align="right">1.000000</td>
+<td align="right">478.4167</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Jan</td>
+<td align="right">52845</td>
+<td align="right">13.53919</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Jan</td>
+<td align="right">24727</td>
+<td align="right">12.02363</td>
+<td align="right">1.000000</td>
+<td align="right">480.0000</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Feb</td>
+<td align="right">5625</td>
+<td align="right">42.33515</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9333</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Feb</td>
+<td align="right">3080</td>
+<td align="right">18.07024</td>
+<td align="right">1.016667</td>
+<td align="right">215.2000</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Feb</td>
+<td align="right">28805</td>
+<td align="right">19.84208</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Feb</td>
+<td align="right">9880</td>
+<td align="right">14.15424</td>
+<td align="right">1.000000</td>
+<td align="right">479.9167</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Mar</td>
+<td align="right">45152</td>
+<td align="right">31.79804</td>
+<td align="right">1.000000</td>
+<td align="right">1559.9333</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Mar</td>
+<td align="right">22425</td>
+<td align="right">21.94862</td>
+<td align="right">1.000000</td>
+<td align="right">479.9833</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Mar</td>
+<td align="right">105612</td>
+<td align="right">14.38705</td>
+<td align="right">1.000000</td>
+<td align="right">1559.9333</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Mar</td>
+<td align="right">36763</td>
+<td align="right">13.54262</td>
+<td align="right">1.000000</td>
+<td align="right">479.9167</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Apr</td>
+<td align="right">70064</td>
+<td align="right">32.04267</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Apr</td>
+<td align="right">40313</td>
+<td align="right">21.91722</td>
+<td align="right">1.000000</td>
+<td align="right">480.4167</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Apr</td>
+<td align="right">141797</td>
+<td align="right">15.09362</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9333</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Apr</td>
+<td align="right">55680</td>
+<td align="right">14.46892</td>
+<td align="right">1.000000</td>
+<td align="right">480.4833</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">May</td>
+<td align="right">122586</td>
+<td align="right">33.06151</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">May</td>
+<td align="right">87707</td>
+<td align="right">22.88819</td>
+<td align="right">1.000000</td>
+<td align="right">480.4333</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">May</td>
+<td align="right">182324</td>
+<td align="right">15.31483</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9333</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">May</td>
+<td align="right">87573</td>
+<td align="right">14.01674</td>
+<td align="right">1.000000</td>
+<td align="right">480.4833</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Jun</td>
+<td align="right">185916</td>
+<td align="right">31.17913</td>
+<td align="right">1.000000</td>
+<td align="right">1500.4167</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Jun</td>
+<td align="right">127730</td>
+<td align="right">22.12894</td>
+<td align="right">1.000000</td>
+<td align="right">480.4167</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Jun</td>
+<td align="right">242997</td>
+<td align="right">15.28686</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Jun</td>
+<td align="right">109679</td>
+<td align="right">14.14077</td>
+<td align="right">1.000000</td>
+<td align="right">480.5167</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Jul</td>
+<td align="right">238744</td>
+<td align="right">28.66934</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Jul</td>
+<td align="right">139837</td>
+<td align="right">21.73915</td>
+<td align="right">1.000000</td>
+<td align="right">480.5167</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Jul</td>
+<td align="right">261200</td>
+<td align="right">14.62818</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Jul</td>
+<td align="right">112633</td>
+<td align="right">14.13894</td>
+<td align="right">1.000000</td>
+<td align="right">480.3833</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Aug</td>
+<td align="right">227620</td>
+<td align="right">27.74059</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Aug</td>
+<td align="right">135077</td>
+<td align="right">21.41887</td>
+<td align="right">1.000000</td>
+<td align="right">480.5000</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Aug</td>
+<td align="right">269076</td>
+<td align="right">14.35731</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Aug</td>
+<td align="right">116350</td>
+<td align="right">14.24478</td>
+<td align="right">1.000000</td>
+<td align="right">480.0167</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Sep</td>
+<td align="right">193586</td>
+<td align="right">27.08181</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Sep</td>
+<td align="right">130529</td>
+<td align="right">20.25086</td>
+<td align="right">1.000000</td>
+<td align="right">480.5167</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Sep</td>
+<td align="right">263085</td>
+<td align="right">14.02260</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9667</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Sep</td>
+<td align="right">122874</td>
+<td align="right">13.80162</td>
+<td align="right">1.000000</td>
+<td align="right">480.0000</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Oct</td>
+<td align="right">104657</td>
+<td align="right">27.49937</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Oct</td>
+<td align="right">126427</td>
+<td align="right">17.76810</td>
+<td align="right">1.000000</td>
+<td align="right">487.2667</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Oct</td>
+<td align="right">207576</td>
+<td align="right">13.28833</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Oct</td>
+<td align="right">159884</td>
+<td align="right">11.97450</td>
+<td align="right">1.000000</td>
+<td align="right">480.5000</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Nov</td>
+<td align="right">31586</td>
+<td align="right">26.17810</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Nov</td>
+<td align="right">66223</td>
+<td align="right">15.09686</td>
+<td align="right">1.000000</td>
+<td align="right">483.4500</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Nov</td>
+<td align="right">120583</td>
+<td align="right">12.54969</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Nov</td>
+<td align="right">128116</td>
+<td align="right">10.50956</td>
+<td align="right">1.000000</td>
+<td align="right">480.4167</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Dec</td>
+<td align="right">19657</td>
+<td align="right">28.37952</td>
+<td align="right">1.033333</td>
+<td align="right">1499.9333</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Dec</td>
+<td align="right">44203</td>
+<td align="right">14.15569</td>
+<td align="right">1.000000</td>
+<td align="right">479.9167</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Dec</td>
+<td align="right">79773</td>
+<td align="right">12.07026</td>
+<td align="right">1.000000</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Dec</td>
+<td align="right">95105</td>
+<td align="right">10.43714</td>
+<td align="right">1.000000</td>
+<td align="right">479.9667</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>rides_per_user_and_type_weekday &lt;- bike_data %&gt;%
+  group_by(member_casual, rideable_type, day_of_week) %&gt;%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length)) %&gt;% 
+  arrange(day_of_week, member_casual, rideable_type)
+
+knitr::kable(rides_per_user_and_type_weekday, &quot;pipe&quot;)</code></pre>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="12%" />
+<col width="16%" />
+<col width="17%" />
+<col width="14%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">member_casual</th>
+<th align="left">rideable_type</th>
+<th align="left">day_of_week</th>
+<th align="right">number_of_rides</th>
+<th align="right">average_duration</th>
+<th align="right">shortest_ride</th>
+<th align="right">longest_ride</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Sun</td>
+<td align="right">254611</td>
+<td align="right">32.80112</td>
+<td align="right">1</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Sun</td>
+<td align="right">149935</td>
+<td align="right">23.41801</td>
+<td align="right">1</td>
+<td align="right">480.5167</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Sun</td>
+<td align="right">248299</td>
+<td align="right">16.49255</td>
+<td align="right">1</td>
+<td align="right">1499.9333</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Sun</td>
+<td align="right">120919</td>
+<td align="right">14.81459</td>
+<td align="right">1</td>
+<td align="right">480.0000</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Mon</td>
+<td align="right">134414</td>
+<td align="right">29.85918</td>
+<td align="right">1</td>
+<td align="right">1499.9333</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Mon</td>
+<td align="right">111914</td>
+<td align="right">20.49052</td>
+<td align="right">1</td>
+<td align="right">487.2667</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Mon</td>
+<td align="right">266651</td>
+<td align="right">13.99499</td>
+<td align="right">1</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Mon</td>
+<td align="right">142703</td>
+<td align="right">12.46770</td>
+<td align="right">1</td>
+<td align="right">480.4833</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Tue</td>
+<td align="right">124714</td>
+<td align="right">26.72735</td>
+<td align="right">1</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Tue</td>
+<td align="right">116586</td>
+<td align="right">18.72248</td>
+<td align="right">1</td>
+<td align="right">480.4167</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Tue</td>
+<td align="right">294661</td>
+<td align="right">13.45611</td>
+<td align="right">1</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Tue</td>
+<td align="right">163492</td>
+<td align="right">12.14145</td>
+<td align="right">1</td>
+<td align="right">480.0167</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Wed</td>
+<td align="right">130362</td>
+<td align="right">25.69903</td>
+<td align="right">1</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Wed</td>
+<td align="right">117347</td>
+<td align="right">18.25008</td>
+<td align="right">1</td>
+<td align="right">483.4500</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Wed</td>
+<td align="right">302986</td>
+<td align="right">13.42685</td>
+<td align="right">1</td>
+<td align="right">1499.9667</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Wed</td>
+<td align="right">166614</td>
+<td align="right">12.27765</td>
+<td align="right">1</td>
+<td align="right">480.5000</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Thu</td>
+<td align="right">136132</td>
+<td align="right">25.95505</td>
+<td align="right">1</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Thu</td>
+<td align="right">118691</td>
+<td align="right">18.16046</td>
+<td align="right">1</td>
+<td align="right">483.4667</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Thu</td>
+<td align="right">284129</td>
+<td align="right">13.40398</td>
+<td align="right">1</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Thu</td>
+<td align="right">160311</td>
+<td align="right">12.21030</td>
+<td align="right">1</td>
+<td align="right">480.4167</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Fri</td>
+<td align="right">175105</td>
+<td align="right">27.61824</td>
+<td align="right">1</td>
+<td align="right">1500.4167</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Fri</td>
+<td align="right">142189</td>
+<td align="right">19.11797</td>
+<td align="right">1</td>
+<td align="right">480.5000</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Fri</td>
+<td align="right">277747</td>
+<td align="right">13.94730</td>
+<td align="right">1</td>
+<td align="right">1499.9500</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Fri</td>
+<td align="right">161250</td>
+<td align="right">12.84838</td>
+<td align="right">1</td>
+<td align="right">480.5167</td>
+</tr>
+<tr class="odd">
+<td align="left">casual</td>
+<td align="left">classic_bike</td>
+<td align="left">Sat</td>
+<td align="right">298057</td>
+<td align="right">30.93380</td>
+<td align="right">1</td>
+<td align="right">1559.9333</td>
+</tr>
+<tr class="even">
+<td align="left">casual</td>
+<td align="left">electric_bike</td>
+<td align="left">Sat</td>
+<td align="right">174445</td>
+<td align="right">21.92266</td>
+<td align="right">1</td>
+<td align="right">480.5167</td>
+</tr>
+<tr class="odd">
+<td align="left">member</td>
+<td align="left">classic_bike</td>
+<td align="left">Sat</td>
+<td align="right">281200</td>
+<td align="right">16.07065</td>
+<td align="right">1</td>
+<td align="right">1559.9333</td>
+</tr>
+<tr class="even">
+<td align="left">member</td>
+<td align="left">electric_bike</td>
+<td align="left">Sat</td>
+<td align="right">143975</td>
+<td align="right">14.50240</td>
+<td align="right">1</td>
+<td align="right">480.4167</td>
+</tr>
+</tbody>
+</table>
+<p>Based on type of bike used, the customers present the same behavior.</p>
+<p>After analyzing the database, we will create data visualizations to communicate our findings.</p>
 </div>
-<div id="share" class="section level2">
-<h2>Share</h2>
+<div id="share-our-findings" class="section level2">
+<h2>Share our Findings</h2>
+<p>After performed our analysis, we will develop some data visualizations to communicate our findings to the executive team. To do that, we will need to be concise and precise on our decisions to what use on the presentation.</p>
+<p>Beginning with a chart to compare the total number of rides made for each type of customer:</p>
+<pre class="r"><code>rides_per_user %&gt;% 
+ggplot(aes(x=member_casual, y = number_of_rides, fill=member_casual)) +
+  geom_bar(stat=&quot;identity&quot;, position=&quot;identity&quot;) +
+  scale_fill_manual(values = c(&quot;#1380A1&quot;, &quot;#FAAB18&quot;)) +
+  geom_hline(yintercept = 0, size = 1, colour=&quot;#333333&quot;) +
+  bbc_style() +
+  labs(title=&quot;Cyclistic members ride more&quot;,
+       subtitle = &quot;In 2021 was over then 5 million rides&quot;
+      ) +
+  scale_y_continuous(limits=c(0,3200000),
+                   breaks = seq(0, 3000000, by = 1000000),
+                   labels = c(&quot;0&quot;,&quot;1 M&quot;, &quot;2 M&quot;, &quot;3 M&quot;)) +
+  scale_x_discrete(labels = c(&quot;Casual riders&quot;, &quot;Cyclistic members&quot;)) +
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="bike-share-analysis_files/figure-html/general%20comparing-1.png" width="672" /></p>
+<p>When we look at the month behavior:</p>
+<pre class="r"><code>rides_per_user_month %&gt;%
+  ggplot(aes(x = month, y = number_of_rides, group = member_casual, color=member_casual
+             )) +
+   geom_line(size=1)  +
+  scale_color_manual(values = c(&quot;#1380A1&quot;, &quot;#FAAB18&quot;)) +
+  geom_hline(yintercept = 0, size = 1, colour=&quot;#333333&quot;) +
+  bbc_style() +
+  labs(title=&quot;Seasonal trend&quot;,
+       subtitle = &quot;But the customers behave similarly&quot;
+      ) +
+  scale_y_continuous(limits=c(0,420000),
+                   breaks = seq(0, 400000, by = 100000),
+                   labels = c(&quot;0&quot;,&quot;100 K&quot;, &quot;200 K&quot;, &quot;300 K&quot;, &quot;400 K&quot;)) +
+  theme(legend.position = &quot;none&quot;) +
+  geom_label(aes(x = 8, y = 80000, label = &quot;Casual riders&quot;), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = &quot;#1380A1&quot;, 
+             fill = &quot;white&quot;, 
+             label.size = NA,
+             size = 5) +
+  geom_label(aes(x = 8, y = 410000, label = &quot;Cyclistic members&quot;), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = &quot;#FAAB18&quot;,
+             fill = &quot;white&quot;,
+             label.size = NA,
+             size = 5)</code></pre>
+<p><img src="bike-share-analysis_files/figure-html/monthly%20data-1.png" width="672" /></p>
+<p>Now, looking to the week data:</p>
+<pre class="r"><code>rides_per_user_weekday %&gt;%
+  ggplot(aes(x = day_of_week, y = number_of_rides, group = member_casual, color=member_casual
+             )) +
+   geom_line(size=1)  +
+  scale_color_manual(values = c(&quot;#1380A1&quot;, &quot;#FAAB18&quot;)) +
+  geom_hline(yintercept = 0, size = 1, colour=&quot;#333333&quot;) +
+  bbc_style() +
+  labs(title=&quot;Be casual on Weekends&quot;,
+       subtitle = &quot;Casual rides increase on weekends&quot;
+      ) +
+  scale_y_continuous(limits=c(0,550000),
+                   breaks = seq(0, 400000, by = 100000),
+                   labels = c(&quot;0&quot;,&quot;100 K&quot;, &quot;200 K&quot;, &quot;300 K&quot;, &quot;400 K&quot;)) +
+  theme(legend.position = &quot;none&quot;) +
+  geom_label(aes(x = 5, y = 200000, label = &quot;Casual riders&quot;), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = &quot;#1380A1&quot;, 
+             fill = &quot;white&quot;, 
+             label.size = NA,
+             size = 5) +
+  geom_label(aes(x = 5, y = 500000, label = &quot;Cyclistic members&quot;), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = &quot;#FAAB18&quot;,
+             fill = &quot;white&quot;,
+             label.size = NA,
+             size = 5)</code></pre>
+<p><img src="bike-share-analysis_files/figure-html/weekly%20data-1.png" width="672" /></p>
+<p>we can see a pattern, on weekends casual riders usually make more rides.</p>
+<p>Analyzing the duration of rides:</p>
+<pre class="r"><code>rides_per_user_weekday %&gt;%
+  ggplot(aes(x = day_of_week, y = average_duration, group = member_casual, color=member_casual
+             )) +
+   geom_line(size=1)  +
+  scale_color_manual(values = c(&quot;#1380A1&quot;, &quot;#FAAB18&quot;)) +
+  geom_hline(yintercept = 0, size = 1, colour=&quot;#333333&quot;) +
+  bbc_style() +
+  labs(title=&quot;Casually riding more&quot;,
+       subtitle = &quot;On average, casual riders ride longer&quot;
+      ) +
+  scale_y_continuous(limits=c(0,30),
+                   breaks = seq(0, 30, by = 10),
+                   labels = c(&quot;0&quot;,&quot;10&quot;, &quot;20&quot;, &quot;30 min&quot;)) +
+  theme(legend.position = &quot;none&quot;) +
+  geom_label(aes(x = 5, y = 30, label = &quot;Casual riders&quot;), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = &quot;#1380A1&quot;, 
+             fill = &quot;white&quot;, 
+             label.size = NA,
+             size = 5) +
+  geom_label(aes(x = 5, y = 10, label = &quot;Cyclistic members&quot;), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = &quot;#FAAB18&quot;,
+             fill = &quot;white&quot;,
+             label.size = NA,
+             size = 5)</code></pre>
+<p><img src="bike-share-analysis_files/figure-html/average%20per%20day%20of%20week-1.png" width="672" /> We can see that Cyclistic members make the shortest rides.</p>
 </div>
-<div id="act" class="section level2">
-<h2>Act</h2>
+<div id="suggestion-of-new-plans" class="section level2">
+<h2>Suggestion of New Plans</h2>
+<p>Our results suggests that the casual riders take more rides on weekends, and they also do the longer rides, so we can give three recommendations:</p>
+<ul>
+<li>Create new annual plans with more flexibility, such as plans valid only on the weekends;</li>
+<li>Create new fidelity plan, so customer who rides longer have some discount when he is a Cyclistic member;</li>
+<li>Create a month plan, to attend the high pic of rides in the middle of the year.</li>
+</ul>
+<p>As further analysis we can use data from the customers, such as job occupation and how they use our bikes, to understand why the uses on weekend is so high.</p>
 </div>
 
 

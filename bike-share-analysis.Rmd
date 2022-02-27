@@ -21,7 +21,7 @@ I was charged of one answer: How do annual members and casual riders use Cyclist
 
 ## Cyclistic Historical Bike-Share Data
 
-Our historical data is in this [link](https://divvy-tripdata.s3.amazonaws.com/index.html), under this [license](https://ride.divvybikes.com/data-license-agreement). They are in 12 CSVs containing details of the bike trips for each month, from February of 2021 to January of 2022, and it's organized in the following way:
+Our historical data is in this [link](https://divvy-tripdata.s3.amazonaws.com/index.html), under this [license](https://ride.divvybikes.com/data-license-agreement). They are in 12 CSVs containing details of the bike trips for each month of 2021, and it's organized in the following way:
 
 | Column Name        | Description                                                                                |
 | ------------------ | ------------------------------------------------------------------------------------------ |
@@ -41,7 +41,7 @@ Our historical data is in this [link](https://divvy-tripdata.s3.amazonaws.com/in
 
 The data was stored in local folder named `bike-share-data`, following the name convention of `{yyyy}{mm}-divvy-tripdata.csv`.
 
-> disclaimer: the data actualy is from the [Divvy Bikes](https://ride.divvybikes.com/), a real bike share service in Chicago.
+> Disclaimer: The data is actually from [Divvy Bikes](https://ride.divvybikes.com/), an actual bike-sharing service in Chicago.
 
 There are some issues with the data, such as missing values, and some metrics that we can infer from the database, it’ll be described in the next section.
 
@@ -54,6 +54,15 @@ library(tidyverse)
 library(lubridate)
 library(ggplot2)
 Sys.setlocale(category = "LC_ALL", locale = "English")
+devtools::install_github('bbc/bbplot')
+
+if(!require(pacman))install.packages("pacman")
+
+pacman::p_load('dplyr', 'tidyr', 'gapminder',
+               'ggplot2',  'ggalt',
+               'forcats', 'R.utils', 'png', 
+               'grid', 'ggpubr', 'scales',
+               'bbplot')
 ```
 
 
@@ -82,7 +91,7 @@ The next step is to verify the data, and for that we’ll use the following comm
 
 to list the columns in the dataframe:
 
-```{r list columns}
+```{r list columns, echo=FALSE, message=FALSE}
 colnames(bike_2101)
 colnames(bike_2102)
 colnames(bike_2103)
@@ -141,11 +150,6 @@ max(bike_data$started_at)
 
 ### Transform the data
 
-We can transform then to levels to work more efficiently:
-
-Since the number of stations is over than six hundred, we can keep it as strings.
-
-
 We can transform then to levels to work more efficient:
 ```{r convert string to factor}
 bike_data$rideable_type <- factor(bike_data$rideable_type)
@@ -165,11 +169,11 @@ And to convert to numeric:
 bike_data$ride_length <- as.numeric(as.character(bike_data$ride_length))
 ```
 
-Removing rides with negative length:
+Removing rides below one minute, because it's potentially false starts or users trying to re-dock a bike to ensure it was secure:
 
 ```{r remove negative ride length}
 
-bike_data <- bike_data %>% filter(ride_length > 0)
+bike_data <- bike_data %>% filter(ride_length >= 1 & !rideable_type == 'docked_bike')
 
 ```
 
@@ -185,9 +189,265 @@ bike_data$day_of_week <- format(as.Date(bike_data$date), "%a")
 
 ```
 
+To make our analysis easier, we have to ordinate the month and the weekdays:
 
-## Analyze
+```{r}
+bike_data$month <- ordered(bike_data$month, levels=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
+bike_data$day_of_week <- ordered(bike_data$day_of_week, levels=c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"))
 
-## Share
+```
 
-## Act
+
+Our final database look like this:
+
+```{r aggregated data, echo=FALSE}
+knitr::kable(head(bike_data), "pipe")
+```
+
+
+## Analysis of Our Rides
+
+With our dataset ready to be analyzed, we started with an aggregation of all rides:
+
+```{r summarize rides, warning=FALSE, message=FALSE}
+sum_rides <- bike_data %>%
+  group_by() %>%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length))
+
+knitr::kable(sum_rides, "pipe")
+```
+
+To understand who the customer differs, we need to compare then:
+
+```{r rides per type user, warning=FALSE, message=FALSE}
+rides_per_user <- bike_data %>%
+  group_by(member_casual) %>%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length)) %>% 
+  arrange(member_casual)
+
+knitr::kable(rides_per_user, "pipe")
+```
+
+Now looking for patterns monthly:
+
+```{r rides per type user and month, warning=FALSE, message=FALSE}
+rides_per_user_month <- bike_data %>%
+  group_by(member_casual, month) %>%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length)) %>% 
+  arrange(month, member_casual)
+
+knitr::kable(rides_per_user_month, "pipe")
+```
+
+Also, we look for patterns in the weekdays:
+
+
+```{r rides per type user and weekday, warning=FALSE, message=FALSE}
+rides_per_user_weekday <- bike_data %>%
+  group_by(member_casual, day_of_week) %>%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length)) %>% 
+  arrange(day_of_week, member_casual)
+
+knitr::kable(rides_per_user_weekday, "pipe")
+```
+
+We can search for trends of use in different types of bikes, so let's generate this base:
+
+```{r trends in types, warning=FALSE, message=FALSE}
+rides_per_user_and_type <- bike_data %>%
+  group_by(member_casual, rideable_type) %>%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length)) %>% 
+  arrange(member_casual)
+
+knitr::kable(rides_per_user_and_type, "pipe")
+```
+```{r trends in types on months, warning=FALSE, message=FALSE}
+
+rides_per_user_and_type_month <- bike_data %>%
+  group_by(member_casual, rideable_type, month) %>%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length)) %>% 
+  arrange(month, member_casual, rideable_type)
+
+
+knitr::kable(rides_per_user_and_type_month, "pipe")
+```
+```{r trends in types on days of week, warning=FALSE, message=FALSE}
+
+rides_per_user_and_type_weekday <- bike_data %>%
+  group_by(member_casual, rideable_type, day_of_week) %>%
+  summarise(number_of_rides=n(),
+            average_duration=mean(ride_length),
+            shortest_ride=min(ride_length),
+            longest_ride=max(ride_length)) %>% 
+  arrange(day_of_week, member_casual, rideable_type)
+
+knitr::kable(rides_per_user_and_type_weekday, "pipe")
+
+```
+
+Based on type of bike used, the customers present the same behavior.
+
+After analyzing the database, we will create data visualizations to communicate our findings.
+
+## Share our Findings
+
+After performed our analysis, we will develop some data visualizations to communicate our findings to the executive team. To do that, we will need to be concise and precise on our decisions to what use on the presentation.
+
+Beginning with a chart to compare the total number of rides made for each type of customer:
+
+
+```{r general comparing, warning=FALSE}
+rides_per_user %>% 
+ggplot(aes(x=member_casual, y = number_of_rides, fill=member_casual)) +
+  geom_bar(stat="identity", position="identity") +
+  scale_fill_manual(values = c("#1380A1", "#FAAB18")) +
+  geom_hline(yintercept = 0, size = 1, colour="#333333") +
+  bbc_style() +
+  labs(title="Cyclistic members ride more",
+       subtitle = "In 2021 was over then 5 million rides"
+      ) +
+  scale_y_continuous(limits=c(0,3200000),
+                   breaks = seq(0, 3000000, by = 1000000),
+                   labels = c("0","1 M", "2 M", "3 M")) +
+  scale_x_discrete(labels = c("Casual riders", "Cyclistic members")) +
+  theme(legend.position = "none")
+```
+
+
+When we look at the month behavior:
+
+```{r monthly data, warning=FALSE}
+rides_per_user_month %>%
+  ggplot(aes(x = month, y = number_of_rides, group = member_casual, color=member_casual
+             )) +
+   geom_line(size=1)  +
+  scale_color_manual(values = c("#1380A1", "#FAAB18")) +
+  geom_hline(yintercept = 0, size = 1, colour="#333333") +
+  bbc_style() +
+  labs(title="Seasonal trend",
+       subtitle = "But the customers behave similarly"
+      ) +
+  scale_y_continuous(limits=c(0,420000),
+                   breaks = seq(0, 400000, by = 100000),
+                   labels = c("0","100 K", "200 K", "300 K", "400 K")) +
+  theme(legend.position = "none") +
+  geom_label(aes(x = 8, y = 80000, label = "Casual riders"), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = "#1380A1", 
+             fill = "white", 
+             label.size = NA,
+             size = 5) +
+  geom_label(aes(x = 8, y = 410000, label = "Cyclistic members"), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = "#FAAB18",
+             fill = "white",
+             label.size = NA,
+             size = 5)
+  
+```
+
+Now, looking to the week data:
+
+
+```{r weekly data, warning=FALSE}
+rides_per_user_weekday %>%
+  ggplot(aes(x = day_of_week, y = number_of_rides, group = member_casual, color=member_casual
+             )) +
+   geom_line(size=1)  +
+  scale_color_manual(values = c("#1380A1", "#FAAB18")) +
+  geom_hline(yintercept = 0, size = 1, colour="#333333") +
+  bbc_style() +
+  labs(title="Be casual on Weekends",
+       subtitle = "Casual rides increase on weekends"
+      ) +
+  scale_y_continuous(limits=c(0,550000),
+                   breaks = seq(0, 400000, by = 100000),
+                   labels = c("0","100 K", "200 K", "300 K", "400 K")) +
+  theme(legend.position = "none") +
+  geom_label(aes(x = 5, y = 200000, label = "Casual riders"), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = "#1380A1", 
+             fill = "white", 
+             label.size = NA,
+             size = 5) +
+  geom_label(aes(x = 5, y = 500000, label = "Cyclistic members"), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = "#FAAB18",
+             fill = "white",
+             label.size = NA,
+             size = 5)
+```
+
+we can see a pattern, on weekends casual riders usually make more rides.
+
+Analyzing the duration of rides:
+
+```{r average per day of week, warning=FALSE}
+rides_per_user_weekday %>%
+  ggplot(aes(x = day_of_week, y = average_duration, group = member_casual, color=member_casual
+             )) +
+   geom_line(size=1)  +
+  scale_color_manual(values = c("#1380A1", "#FAAB18")) +
+  geom_hline(yintercept = 0, size = 1, colour="#333333") +
+  bbc_style() +
+  labs(title="Casually riding more",
+       subtitle = "On average, casual riders ride longer"
+      ) +
+  scale_y_continuous(limits=c(0,30),
+                   breaks = seq(0, 30, by = 10),
+                   labels = c("0","10", "20", "30 min")) +
+  theme(legend.position = "none") +
+  geom_label(aes(x = 5, y = 30, label = "Casual riders"), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = "#1380A1", 
+             fill = "white", 
+             label.size = NA,
+             size = 5) +
+  geom_label(aes(x = 5, y = 10, label = "Cyclistic members"), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = "#FAAB18",
+             fill = "white",
+             label.size = NA,
+             size = 5)
+```
+We can see that Cyclistic members make the shortest rides.
+
+
+
+## Suggestion of New Plans
+
+Our results suggests that the casual riders take more rides on weekends, and they also do the longer rides, so we can give three recommendations:
+
+- Create new annual plans with more flexibility, such as plans valid only on the weekends;
+- Create new fidelity plan, so customer who rides longer have some discount when he is a Cyclistic member;
+- Create a month plan, to attend the high pic of rides in the middle of the year.
+
+As further analysis we can use data from the customers, such as job occupation and how they use our bikes, to understand why the uses on weekend is so high.
+
+
+
+
