@@ -6,22 +6,20 @@ output:
     toc_float: yes
 ---
 
-This project was developed with the goals of practice the learning 
-This is a capstone project of the [Google Data Analytics Professional Certificate](https://www.coursera.org/professional-certificates/google-data-analytics), which I have been doing in the last months, and the goal is to put all the concepts learned in it into practice, without further ado…
+This is a capstone project of the [Google Data Analytics Professional Certificate](https://www.coursera.org/professional-certificates/google-data-analytics), which I have been doing in the last few months, and the goal is to put all the concepts learned in it into practice, without further ado…
 
 ## Context
 
-I’m a junior data analyst working in Cyclist, a company who launched a successful bike-share offering, and nowadays the fleet of 5.824 bicycles that are geotracked and locked into a network of 692 stations across Chicago.
-
+I am a junior data analyst working in Cyclist, a company who launched a successful bike-share offering, and nowadays the fleet of 5.824 bicycles that are geo-tracked and locked into a network of 692 stations across Chicago.
 The company have three price plans, allowing the customers to use a single-ride pass, a full-day pass or an annual membership. Internally, we refer to customers with the two first price plans as casual riders, and the ones with the annual membership as Cyclistic members.
 
-Financial analysts concluded that the Cyclistic members are much more profitable than casual riders, and with that information, the director of marketing believes that a campaign focused on the casual riders, to convert them into Cyclistic members is the key to future growth. To design this marketing strategies, we need to understand the differ between these two customers, why the casual riders would by an annual membership, and how digital media could affect our marketing tactics. Our teams are interested in analyzing the Cyclistc historical bike trip data to identify trends.
+Financial analysts concluded that the Cyclistic members are much more profitable than casual riders, and with that information, the director of marketing believes that a campaign focused on the casual riders, to convert them into Cyclistic members is the key to future growth. To design this marketing strategies, we need to understand the differ between these two customers, why the casual riders would by an annual membership, and how digital media could affect our marketing tactics. Our teams are interested in analyzing the Cyclistic historical bike trip data to identify trends.
 
-I was charged of one answer: How do annual members and casual riders use Cyclistic bikes differently?
+I am responsible for one answer: How do annual members and casual riders use Cyclistic bikes differently?
 
 ## Cyclistic Historical Bike-Share Data
 
-Our historical data is in this [link](https://divvy-tripdata.s3.amazonaws.com/index.html), under this [license](https://ride.divvybikes.com/data-license-agreement). They are in 12 CSVs containing details of the bike trips for each month of 2021, and it's organized in the following way:
+Our historical data is in this [link](https://divvy-tripdata.s3.amazonaws.com/index.html), under this [license](https://ride.divvybikes.com/data-license-agreement). They are in 12 CSVs containing details of the bike trips for each month of 2021, and the information is in the following way:
 
 | Column Name        | Description                                                                                |
 | ------------------ | ------------------------------------------------------------------------------------------ |
@@ -39,11 +37,11 @@ Our historical data is in this [link](https://divvy-tripdata.s3.amazonaws.com/in
 | end_lng            | End longitude                                                                              |
 | member_casual      | Customer classification, it can be _member_ or _casual_                                    |
 
-The data was stored in local folder named `bike-share-data`, following the name convention of `{yyyy}{mm}-divvy-tripdata.csv`.
+The data are in local folder named `bike-share-data`, following the name convention of `{yyyy}{mm}-divvy-tripdata.csv`.
 
-> Disclaimer: The data is actually from [Divvy Bikes](https://ride.divvybikes.com/), an actual bike-sharing service in Chicago.
+> Disclaimer: The data is from [Divvy Bikes](https://ride.divvybikes.com/), an actual bike-sharing service in Chicago.
 
-There are some issues with the data, such as missing values, and some metrics that we can infer from the database, it’ll be described in the next section.
+There are issues with the data such as missing values and metrics that we can infer from the database. I present the data cleaning and transformation steps in the next section.
 
 ## The Data Cleaning Process
 
@@ -68,7 +66,7 @@ pacman::p_load('dplyr', 'tidyr', 'gapminder',
 
 ### Importing the data
 
-to import the data, we use the command in R:
+To import the data, we use the command in R:
 
 ```{r importing data}
 bike_2101 <- read.csv(file = 'bike-share-data/202101-divvy-tripdata.csv')
@@ -87,9 +85,9 @@ bike_2112 <- read.csv(file = 'bike-share-data/202112-divvy-tripdata.csv')
 
 ### Verifying the data
 
-The next step is to verify the data, and for that we’ll use the following commands.
+The next step is to verify the data, and for that we will use the following commands.
 
-to list the columns in the dataframe:
+To list the columns in the database:
 
 ```{r list columns, echo=FALSE, message=FALSE}
 colnames(bike_2101)
@@ -125,7 +123,7 @@ To overview the data and look for missing values:
 ```{r verify data types and missing values}
 summary(bike_data)
 ```
-Here we can see that the `end_lat` and `end_lng` have missing values, but for our analysis we don't need this information, so we can remove it:
+Here we can see that the `end_lat` and `end_lng` have missing values, but for our analysis we do not need this information, so we can remove it:
 
 ```{r removing columns}
 bike_data <- bike_data %>% select(-c("start_lat", "start_lng", "end_lat", "end_lng"))
@@ -148,9 +146,10 @@ min(bike_data$started_at)
 max(bike_data$started_at)
 ```
 
-### Transform the data
+### Transforming the data
 
 We can transform then to levels to work more efficient:
+
 ```{r convert string to factor}
 bike_data$rideable_type <- factor(bike_data$rideable_type)
 bike_data$member_casual <- factor(bike_data$member_casual)
@@ -189,7 +188,7 @@ bike_data$day_of_week <- format(as.Date(bike_data$date), "%a")
 
 ```
 
-To make our analysis easier, we have to ordinate the month and the weekdays:
+To make our analysis easier, we must ordinate the month and the days of week:
 
 ```{r}
 bike_data$month <- ordered(bike_data$month, levels=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
@@ -241,8 +240,7 @@ rides_per_user_month <- bike_data %>%
 knitr::kable(rides_per_user_month, "pipe")
 ```
 
-Also, we look for patterns in the weekdays:
-
+Also, we look for patterns in the days of week:
 
 ```{r rides per type user and weekday, warning=FALSE, message=FALSE}
 rides_per_user_weekday <- bike_data %>%
@@ -256,7 +254,7 @@ rides_per_user_weekday <- bike_data %>%
 knitr::kable(rides_per_user_weekday, "pipe")
 ```
 
-We can search for trends of use in different types of bikes, so let's generate this base:
+We can search for trends of use of our two types of bikes, so let us generate this base:
 
 ```{r trends in types, warning=FALSE, message=FALSE}
 rides_per_user_and_type <- bike_data %>%
@@ -269,6 +267,8 @@ rides_per_user_and_type <- bike_data %>%
 
 knitr::kable(rides_per_user_and_type, "pipe")
 ```
+Also, we can analyze the data mothly:
+
 ```{r trends in types on months, warning=FALSE, message=FALSE}
 
 rides_per_user_and_type_month <- bike_data %>%
@@ -282,6 +282,8 @@ rides_per_user_and_type_month <- bike_data %>%
 
 knitr::kable(rides_per_user_and_type_month, "pipe")
 ```
+And inside a week:
+
 ```{r trends in types on days of week, warning=FALSE, message=FALSE}
 
 rides_per_user_and_type_weekday <- bike_data %>%
@@ -302,16 +304,15 @@ After analyzing the database, we will create data visualizations to communicate 
 
 ## Share our Findings
 
-After performed our analysis, we will develop some data visualizations to communicate our findings to the executive team. To do that, we will need to be concise and precise on our decisions to what use on the presentation.
+After performed our analysis, we will develop data visualizations to communicate our findings to the executive team. To do that, we will need to be concise and precise on our decisions to what use on the presentation.
 
 Beginning with a chart to compare the total number of rides made for each type of customer:
-
 
 ```{r general comparing, warning=FALSE}
 rides_per_user %>% 
 ggplot(aes(x=member_casual, y = number_of_rides, fill=member_casual)) +
   geom_bar(stat="identity", position="identity") +
-  scale_fill_manual(values = c("#1380A1", "#FAAB18")) +
+  scale_fill_manual(values = c("#1a3068", "#325dcc")) +
   geom_hline(yintercept = 0, size = 1, colour="#333333") +
   bbc_style() +
   labs(title="Cyclistic members ride more",
@@ -324,7 +325,6 @@ ggplot(aes(x=member_casual, y = number_of_rides, fill=member_casual)) +
   theme(legend.position = "none")
 ```
 
-
 When we look at the month behavior:
 
 ```{r monthly data, warning=FALSE}
@@ -332,7 +332,7 @@ rides_per_user_month %>%
   ggplot(aes(x = month, y = number_of_rides, group = member_casual, color=member_casual
              )) +
    geom_line(size=1)  +
-  scale_color_manual(values = c("#1380A1", "#FAAB18")) +
+  scale_color_manual(values = c("#1a3068", "#325dcc")) +
   geom_hline(yintercept = 0, size = 1, colour="#333333") +
   bbc_style() +
   labs(title="Seasonal trend",
@@ -345,14 +345,14 @@ rides_per_user_month %>%
   geom_label(aes(x = 8, y = 80000, label = "Casual riders"), 
              hjust = 0, 
              vjust = 0.5, 
-             colour = "#1380A1", 
+             colour = "#1a3068", 
              fill = "white", 
              label.size = NA,
              size = 5) +
   geom_label(aes(x = 8, y = 410000, label = "Cyclistic members"), 
              hjust = 0, 
              vjust = 0.5, 
-             colour = "#FAAB18",
+             colour = "#325dcc",
              fill = "white",
              label.size = NA,
              size = 5)
@@ -367,7 +367,7 @@ rides_per_user_weekday %>%
   ggplot(aes(x = day_of_week, y = number_of_rides, group = member_casual, color=member_casual
              )) +
    geom_line(size=1)  +
-  scale_color_manual(values = c("#1380A1", "#FAAB18")) +
+  scale_color_manual(values = c("#1a3068", "#325dcc")) +
   geom_hline(yintercept = 0, size = 1, colour="#333333") +
   bbc_style() +
   labs(title="Be casual on Weekends",
@@ -380,14 +380,14 @@ rides_per_user_weekday %>%
   geom_label(aes(x = 5, y = 200000, label = "Casual riders"), 
              hjust = 0, 
              vjust = 0.5, 
-             colour = "#1380A1", 
+             colour = "#1a3068", 
              fill = "white", 
              label.size = NA,
              size = 5) +
   geom_label(aes(x = 5, y = 500000, label = "Cyclistic members"), 
              hjust = 0, 
              vjust = 0.5, 
-             colour = "#FAAB18",
+             colour = "#325dcc",
              fill = "white",
              label.size = NA,
              size = 5)
@@ -402,7 +402,7 @@ rides_per_user_weekday %>%
   ggplot(aes(x = day_of_week, y = average_duration, group = member_casual, color=member_casual
              )) +
    geom_line(size=1)  +
-  scale_color_manual(values = c("#1380A1", "#FAAB18")) +
+  scale_color_manual(values = c("#1a3068", "#325dcc")) +
   geom_hline(yintercept = 0, size = 1, colour="#333333") +
   bbc_style() +
   labs(title="Casually riding more",
@@ -415,19 +415,20 @@ rides_per_user_weekday %>%
   geom_label(aes(x = 5, y = 30, label = "Casual riders"), 
              hjust = 0, 
              vjust = 0.5, 
-             colour = "#1380A1", 
+             colour = "#1a3068", 
              fill = "white", 
              label.size = NA,
              size = 5) +
   geom_label(aes(x = 5, y = 10, label = "Cyclistic members"), 
              hjust = 0, 
              vjust = 0.5, 
-             colour = "#FAAB18",
+             colour = "#325dcc",
              fill = "white",
              label.size = NA,
              size = 5)
 ```
-We can see that Cyclistic members make the shortest rides.
+
+We can see that the Cyclistic members make the shortest rides.
 
 
 
@@ -435,12 +436,8 @@ We can see that Cyclistic members make the shortest rides.
 
 Our results suggests that the casual riders take more rides on weekends, and they also do the longer rides, so we can give three recommendations:
 
-- Create new annual plans with more flexibility, such as plans valid only on the weekends;
-- Create new fidelity plan, so customer who rides longer have some discount when he is a Cyclistic member;
+- Create new annual plans with more flexibility, such as plans valid only on the weekends.
+- Create new fidelity plan, so customer who rides longer have discount when he is a Cyclistic member.
 - Create a month plan, to attend the high pic of rides in the middle of the year.
 
-As further analysis we can use data from the customers, such as job occupation and how they use our bikes, to understand why the uses on weekend is so high.
-
-
-
-
+As further analysis we can use data from the customers, such as job occupation and how they use our bikes, to understand why the use on weekend is so high.
